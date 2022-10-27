@@ -1,0 +1,47 @@
+version: "3"
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    hostname: pihole
+    ports:
+#      - "53:53/tcp"
+#      - "53:53/udp"
+      - "80:80/tcp"
+    environment:
+      TZ: 'Europe/Warsaw'
+    volumes:
+      - './data/pihole/:/etc/pihole/'
+      - './data/dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+  pihole-exporter:
+    container_name: pihole-exporter
+    image: ekofr/pihole-exporter
+    ports:
+      - 9617:9617
+    expose:
+      - 9617
+    environment:
+      PIHOLE_HOSTNAME: pihole
+      PIHOLE_PORT: 80
+      PIHOLE_PASSWORD: 12345678aA
+      INTERVAL: 30s
+      PORT: 9617
+    restart: always
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    hostname: grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    hostname: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - './data/prometheus/:/etc/prometheus'
