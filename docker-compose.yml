@@ -42,6 +42,10 @@ services:
     hostname: grafana
     ports:
       - 3000:3000
+    volumes:
+      - ./config/grafana/:/etc/grafana/provisioning/datasources
+    environment:
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
     restart: unless-stopped
   prometheus:
     container_name: prometheus
