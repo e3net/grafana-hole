@@ -5,11 +5,16 @@ services:
     image: pihole/pihole:latest
     hostname: pihole
     ports:
-#      - "53:53/tcp"
-#      - "53:53/udp"
+      - "53:53/tcp"
+      - "53:53/udp"
       - "80:80/tcp"
     environment:
       TZ: 'Europe/Warsaw'
+      ServerIP: "${ip:-0.0.0.0}"
+      WEBPASSWORD: 12345678aA
+      # DNS1: 8.8.8.8
+      # DNS2: 1.1.1.1
+      # DNS3: 9.9.9.9
     volumes:
       - './data/pihole/:/etc/pihole/'
       - './data/dnsmasq.d/:/etc/dnsmasq.d/'
@@ -19,6 +24,7 @@ services:
   pihole-exporter:
     container_name: pihole-exporter
     image: ekofr/pihole-exporter
+    hostname: pihole-exporter
     ports:
       - 9617:9617
     expose:
@@ -44,4 +50,4 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - './data/prometheus/:/etc/prometheus'
+      - './config/prometheus/:/etc/prometheus'
