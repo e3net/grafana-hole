@@ -36,6 +36,15 @@ services:
       INTERVAL: 30s
       PORT: 9617
     restart: always
+  speedtest-exporter:
+    container_name: speedtest-exporter
+    image: miguelndecarvalho/speedtest-exporter
+    # environment:
+    #   - SPEEDTEST_PORT=8080 #optional
+    #   - SPEEDTEST_SERVER=40571 #optional
+    ports:
+      - 9798:9798
+    restart: unless-stopped
   grafana:
     container_name: grafana
     image: grafana/grafana
@@ -43,7 +52,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./config/grafana/:/etc/grafana/provisioning/datasources
+      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
     environment:
       GF_INSTALL_PLUGINS: grafana-piechart-panel
     restart: unless-stopped
