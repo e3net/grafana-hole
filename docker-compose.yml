@@ -14,7 +14,8 @@ services:
       WEBPASSWORD: 12345678aA
       # DNS1: 8.8.8.8
       # DNS2: 1.1.1.1
-      # DNS3: 9.9.9.9
+      DNS1: 9.9.9.9
+      ADLISTS_URL: "https://raw.githubusercontent.com/MajkiIT/polish-ads-filter/master/polish-pihole-filters/hostfile.txt"
     volumes:
       - './data/pihole/:/etc/pihole/'
       - './data/dnsmasq.d/:/etc/dnsmasq.d/'
