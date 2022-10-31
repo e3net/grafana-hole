@@ -32,5 +32,9 @@ grafana
 prometheus
 
 dashboards
-pihole:
+pihole: 10176
 speedtest:13665
+
+
+speedtest server id list: https://gist.github.com/epixoip/2b8696ed577d584a7f484c006d945051
+https://williamyaps.github.io/wlmjavascript/servercli.html

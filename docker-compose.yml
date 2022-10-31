@@ -9,13 +9,10 @@ services:
       - "53:53/udp"
       - "80:80/tcp"
     environment:
-      TZ: 'Europe/Warsaw'
-      ServerIP: "${ip:-0.0.0.0}"
-      WEBPASSWORD: 12345678aA
-      # DNS1: 8.8.8.8
-      # DNS2: 1.1.1.1
-      DNS1: 9.9.9.9
-      ADLISTS_URL: "https://raw.githubusercontent.com/MajkiIT/polish-ads-filter/master/polish-pihole-filters/hostfile.txt"
+      - TZ=${TZ}
+      - ServerIP=${ip:-0.0.0.0}
+      - WEBPASSWORD=${WEBPASSWORD}
+      - DNS1=${DNS1}
     volumes:
       - './data/pihole/:/etc/pihole/'
       - './data/dnsmasq.d/:/etc/dnsmasq.d/'
@@ -33,16 +30,16 @@ services:
     environment:
       PIHOLE_HOSTNAME: pihole
       PIHOLE_PORT: 80
-      PIHOLE_PASSWORD: 12345678aA
-      INTERVAL: 30s
+      PIHOLE_PASSWORD: ${WEBPASSWORD}
+      INTERVAL: 600s
       PORT: 9617
     restart: always
   speedtest-exporter:
     container_name: speedtest-exporter
     image: miguelndecarvalho/speedtest-exporter
-    # environment:
+    environment:
     #   - SPEEDTEST_PORT=8080 #optional
-    #   - SPEEDTEST_SERVER=40571 #optional
+      - SPEEDTEST_SERVER=1016 #optional
     ports:
       - 9798:9798
     restart: unless-stopped
