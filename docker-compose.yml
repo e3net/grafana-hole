@@ -12,13 +12,17 @@ services:
       - TZ=${TZ}
       - ServerIP=${ip:-0.0.0.0}
       - WEBPASSWORD=${WEBPASSWORD}
-      - DNS1=${DNS1}
+      - DNS1=${DNS1} #172.19.0.5#5053 unbound
+      - DNS2=${DNS2}
     volumes:
       - './data/pihole/:/etc/pihole/'
       - './data/dnsmasq.d/:/etc/dnsmasq.d/'
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
+    networks:
+      private_network:
+        ipv4_address: 10.10.0.10
   pihole-exporter:
     container_name: pihole-exporter
     image: ekofr/pihole-exporter
@@ -34,6 +38,19 @@ services:
       INTERVAL: 600s
       PORT: 9617
     restart: always
+    networks:
+      private_network:
+        ipv4_address: 10.10.0.11
+  unbound:
+    image: mvance/unbound:latest
+    container_name: unbound
+    restart: unless-stopped
+    hostname: unbound
+    volumes:
+      - ./config/unbound:/opt/unbound/etc/unbound/
+    networks:
+      private_network:
+        ipv4_address: 10.10.0.12
   speedtest-exporter:
     container_name: speedtest-exporter
     image: miguelndecarvalho/speedtest-exporter
@@ -43,6 +60,9 @@ services:
     ports:
       - 9798:9798
     restart: unless-stopped
+    networks:
+      private_network:
+        ipv4_address: 10.10.0.20
   grafana:
     container_name: grafana
     image: grafana/grafana
@@ -55,6 +75,9 @@ services:
     environment:
       GF_INSTALL_PLUGINS: grafana-piechart-panel
     restart: unless-stopped
+    networks:
+      private_network:
+        ipv4_address: 10.10.0.30
   prometheus:
     container_name: prometheus
     image: prom/prometheus
@@ -63,3 +86,12 @@ services:
       - 9090:9090
     volumes:
       - './config/prometheus/:/etc/prometheus'
+    networks:
+      private_network:
+        ipv4_address: 10.10.0.40
+networks:
+  private_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.0.0/24
