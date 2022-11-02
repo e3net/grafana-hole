@@ -1,4 +1,4 @@
 data
 unbound/dev
 unbound/var
-unbound/unbound.pid
+config/unbound/unbound.pid
