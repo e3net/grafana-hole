@@ -18,7 +18,7 @@ docker-compose up -d
 # Testing
 
 Debian 11 (bullseye)
-
+Raspberry pi
 
 
 do sprawdzenia to: https://github.com/danopstech/speedtest_exporter
