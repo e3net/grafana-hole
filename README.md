@@ -2,18 +2,35 @@
 App mix with pi-hole, grafana, prometheus, speedtest
 
 
-# prerequisites
-install docker
+# Prerequisites
 
-instal docker-compose
+Install docker
+```sh
+$ curl  -sSL https://get.docker.com/ | sh
+```
+Install docker-compose
+```sh
+$ sudo apt-get install -y libffi-dev libssl-dev
+$ sudo apt-get install -y python3 python3-pip
+$ sudo pip3 -v install docker-compose
+```
 
-# instalation
-git clone https://github.com/e3net/grafana-hole
+# Installation
+```sh
+$ git clone https://github.com/e3net/grafana-hole
+$ cd grafana-hole
+$ docker-compose up -d
+```
 
-cd grafana-hole
-docker-compose up -d
+After pulling and run contenrer the applications will be available at:
+pihole: http://device_ip
+grafana: http://device_ip:3000
+prometheus: http://device_ip:9090
 
-
+metrics:
+pihole-exporter: http://device_ip:9617
+speedtest-exporter: http://device_ip:9798
+node-exporter: http://device_ip:9100
 
 # Testing
 
