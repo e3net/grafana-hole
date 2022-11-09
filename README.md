@@ -58,4 +58,4 @@ Metrics exporters:
 - node-exporter: [1860](https://grafana.com/grafana/dashboards/1860-node-exporter-full/)
 
 # Todo
-Add provisioning blocking list to pihole
+Add provisioning blocking list from file to pihole
