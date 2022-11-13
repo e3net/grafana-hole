@@ -13,7 +13,7 @@ services:
       - ServerIP=${ip:-0.0.0.0}
       - WEBPASSWORD=${WEBPASSWORD}
       - DNS1=${DNS1} #172.19.0.5#5053 unbound
-      - DNS2=${DNS2}
+      #- DNS2=${DNS2}
     volumes:
       - './data/pihole/:/etc/pihole/'
       - './data/dnsmasq.d/:/etc/dnsmasq.d/'
