@@ -14,6 +14,11 @@ services:
       - WEBPASSWORD=${WEBPASSWORD}
       - DNS1=${DNS1} #172.19.0.5#5053 unbound
       #- DNS2=${DNS2}
+    # command:
+    #   - /bin/sh
+    #   - -c
+    #   - |
+    #     sudo sqlite3 /etc/pihole/gravity.db "INSERT INTO adlist (address, enabled, comment) VALUES ('https://hole.cert.pl/domains/domains.txt', 1, 'cert123');"
     volumes:
       - './data/pihole/:/etc/pihole/'
       - './data/dnsmasq.d/:/etc/dnsmasq.d/'
