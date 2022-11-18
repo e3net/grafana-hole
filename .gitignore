@@ -1,4 +1,4 @@
 data
 config/unbound/unbound.pid
-config/unbound/var
+config/unbound/var/*
 todo
