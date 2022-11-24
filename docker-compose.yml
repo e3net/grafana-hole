@@ -12,13 +12,8 @@ services:
       - TZ=${TZ}
       - ServerIP=${ip:-0.0.0.0}
       - WEBPASSWORD=${WEBPASSWORD}
-      - DNS1=${DNS1} #172.19.0.5#5053 unbound
+      - DNS1=1.1.1.1 #${DNS1} #172.19.0.5#5053 unbound
       #- DNS2=${DNS2}
-    # command:
-    #   - /bin/sh
-    #   - -c
-    #   - |
-    #     sudo sqlite3 /etc/pihole/gravity.db "INSERT INTO adlist (address, enabled, comment) VALUES ('https://hole.cert.pl/domains/domains.txt', 1, 'cert123');"
     volumes:
       - './data/pihole/:/etc/pihole/'
       - './data/dnsmasq.d/:/etc/dnsmasq.d/'
@@ -28,93 +23,93 @@ services:
     networks:
       private_network:
         ipv4_address: 10.10.0.10
-  pihole-exporter:
-    container_name: pihole-exporter
-    image: ekofr/pihole-exporter
-    hostname: pihole-exporter
-    ports:
-      - 9617:9617
-    expose:
-      - 9617
-    environment:
-      PIHOLE_HOSTNAME: pihole
-      PIHOLE_PORT: 80
-      PIHOLE_PASSWORD: ${WEBPASSWORD}
-      INTERVAL: 600s
-      PORT: 9617
-    restart: always
-    networks:
-      private_network:
-        ipv4_address: 10.10.0.11
-  unbound:
-    image: mvance/unbound:latest
-    container_name: unbound
-    restart: unless-stopped
-    hostname: unbound
-    volumes:
-      - ./config/unbound:/opt/unbound/etc/unbound/
-    networks:
-      private_network:
-        ipv4_address: 10.10.0.12
-  speedtest-exporter:
-    container_name: speedtest-exporter
-    image: miguelndecarvalho/speedtest-exporter
-    # environment:
-    #   - SPEEDTEST_PORT=8080 #optional
-    #   - SPEEDTEST_SERVER=1016 #optional
-    ports:
-      - 9798:9798
-    restart: unless-stopped
-    networks:
-      private_network:
-        ipv4_address: 10.10.0.20
-  grafana:
-    container_name: grafana
-    image: grafana/grafana
-    hostname: grafana
-    ports:
-      - 3000:3000
-    volumes:
-      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
-      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
-    environment:
-      GF_INSTALL_PLUGINS: grafana-piechart-panel
-    restart: unless-stopped
-    networks:
-      private_network:
-        ipv4_address: 10.10.0.30
-  node-exporter:
-    image: prom/node-exporter:latest
-    container_name: node-exporter
-    restart: unless-stopped
-    hostname: node-exporter
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.rootfs=/rootfs'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
-    ports:
-      - 9100:9100
-    expose:
-      - 9100
-    networks:
-      private_network:
-        ipv4_address: 10.10.0.41
-  prometheus:
-    container_name: prometheus
-    image: prom/prometheus
-    hostname: prometheus
-    ports:
-      - 9090:9090
-    volumes:
-      - './config/prometheus/:/etc/prometheus'
-    networks:
-      private_network:
-        ipv4_address: 10.10.0.40
+  # pihole-exporter:
+  #   container_name: pihole-exporter
+  #   image: ekofr/pihole-exporter
+  #   hostname: pihole-exporter
+  #   ports:
+  #     - 9617:9617
+  #   expose:
+  #     - 9617
+  #   environment:
+  #     PIHOLE_HOSTNAME: pihole
+  #     PIHOLE_PORT: 80
+  #     PIHOLE_PASSWORD: ${WEBPASSWORD}
+  #     INTERVAL: 600s
+  #     PORT: 9617
+  #   restart: always
+  #   networks:
+  #     private_network:
+  #       ipv4_address: 10.10.0.11
+  # unbound:
+  #   image: mvance/unbound:latest
+  #   container_name: unbound
+  #   restart: unless-stopped
+  #   hostname: unbound
+  #   volumes:
+  #     - ./config/unbound:/opt/unbound/etc/unbound/
+  #   networks:
+  #     private_network:
+  #       ipv4_address: 10.10.0.12
+  # speedtest-exporter:
+  #   container_name: speedtest-exporter
+  #   image: miguelndecarvalho/speedtest-exporter
+  #   # environment:
+  #   #   - SPEEDTEST_PORT=8080 #optional
+  #   #   - SPEEDTEST_SERVER=1016 #optional
+  #   ports:
+  #     - 9798:9798
+  #   restart: unless-stopped
+  #   networks:
+  #     private_network:
+  #       ipv4_address: 10.10.0.20
+  # grafana:
+  #   container_name: grafana
+  #   image: grafana/grafana
+  #   hostname: grafana
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
+  #     - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
+  #   environment:
+  #     GF_INSTALL_PLUGINS: grafana-piechart-panel
+  #   restart: unless-stopped
+  #   networks:
+  #     private_network:
+  #       ipv4_address: 10.10.0.30
+  # node-exporter:
+  #   image: prom/node-exporter:latest
+  #   container_name: node-exporter
+  #   restart: unless-stopped
+  #   hostname: node-exporter
+  #   volumes:
+  #     - /proc:/host/proc:ro
+  #     - /sys:/host/sys:ro
+  #     - /:/rootfs:ro
+  #   command:
+  #     - '--path.procfs=/host/proc'
+  #     - '--path.rootfs=/rootfs'
+  #     - '--path.sysfs=/host/sys'
+  #     - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+  #   ports:
+  #     - 9100:9100
+  #   expose:
+  #     - 9100
+  #   networks:
+  #     private_network:
+  #       ipv4_address: 10.10.0.41
+  # prometheus:
+  #   container_name: prometheus
+  #   image: prom/prometheus
+  #   hostname: prometheus
+  #   ports:
+  #     - 9090:9090
+  #   volumes:
+  #     - './config/prometheus/:/etc/prometheus'
+  #   networks:
+  #     private_network:
+  #       ipv4_address: 10.10.0.40
 networks:
   private_network:
     ipam:

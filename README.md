@@ -57,5 +57,9 @@ Metrics exporters:
 - speedtest:[13665](https://grafana.com/grafana/dashboards/13665-speedtest-exporter-dashboard/)
 - node-exporter: [1860](https://grafana.com/grafana/dashboards/1860-node-exporter-full/)
 
+# Provisioning block list
+```sh
+docker exec -it pihole sqlite3 /etc/pihole/gravity.db "INSERT INTO adlist (address, enabled, comment) VALUES ('https://hole.cert.pl/domains/domains.txt', 1, 'cert');"
+```
 # Todo
 Add provisioning blocking list from file to pihole
