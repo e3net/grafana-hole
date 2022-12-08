@@ -49,7 +49,7 @@ Apps:
 
 Metrics exporters:
 - pihole: https://hub.docker.com/r/ekofr/pihole-exporter
-- speedtest-exporter: https://hub.docker.com/r/miguelndecarvalho/speedtest-exporter
+- speedtest-exporter: https://hub.docker.com/r/miguelndecarvalho/speedtest-exporter  (info: https://docs.miguelndecarvalho.pt/projects/speedtest-exporter/)
 - node-exporter: https://hub.docker.com/r/prom/node-exporter
 
 # Dashboards
