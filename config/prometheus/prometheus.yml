@@ -34,7 +34,7 @@ scrape_configs:
       - targets: ['pihole-exporter:9617']
 
   - job_name: 'speedtest-exporter'
-    scrape_interval: 10m
+    scrape_interval: 1h
     scrape_timeout: 1m
     static_configs:
       - targets: ['speedtest-exporter:9798']

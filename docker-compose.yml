@@ -12,7 +12,7 @@ services:
       - TZ=${TZ}
       - ServerIP=${ip:-0.0.0.0}
       - WEBPASSWORD=${WEBPASSWORD}
-      - DNS1=${DNS1} #172.19.0.5#5053 unbound
+      - DNS1=1.1.1.1 #${DNS1} #172.19.0.5#5053 unbound
       #- DNS2=${DNS2}
     volumes:
       - './data/pihole/:/etc/pihole/'
@@ -41,16 +41,19 @@ services:
     networks:
       private_network:
         ipv4_address: 10.10.0.11
-  unbound:
-    image: mvance/unbound:latest
-    container_name: unbound
-    restart: unless-stopped
-    hostname: unbound
-    volumes:
-      - ./config/unbound:/opt/unbound/etc/unbound/
-    networks:
-      private_network:
-        ipv4_address: 10.10.0.12
+  # unbound:
+  #   image: mvance/unbound:latest
+  #   container_name: unbound
+  #   restart: unless-stopped
+  #   hostname: unbound
+  #   ports:
+  #     - 53/tcp
+  #     - 53/udp
+  #   volumes:
+  #     - ./config/unbound:/opt/unbound/etc/unbound/
+  #   networks:
+  #     private_network:
+  #       ipv4_address: 10.10.0.12
   speedtest-exporter:
     container_name: speedtest-exporter
     image: miguelndecarvalho/speedtest-exporter
